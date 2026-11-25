@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "TaskFlow | Actividades y recordatorios",
+  "short_name": "TaskFlow",
+  "description": "Organiza tus actividades y recordatorios personales.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f7f7fb",
+  "theme_color": "#11142b",
+  "icons": [
+    {
+      "src": "./icons/taskflow.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

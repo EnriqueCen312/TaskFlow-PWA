@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11142b">
+    <meta
+      name="description"
+      content="TaskFlow te ayuda a organizar tus actividades y recordatorios personales."
+    >
+    <title>TaskFlow | Organiza tu día</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icons/taskflow.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegación principal">
+        <a class="brand" href="./" aria-label="TaskFlow, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" focusable="false">
+              <path d="M8 16.5 13.2 22 24 10" />
+            </svg>
+          </span>
+          <span>Task<span class="brand-accent">Flow</span></span>
+        </a>
+
+        <div class="sidebar-label">ESPACIO DE TRABAJO</div>
+        <nav class="side-nav">
+          <a class="nav-link is-active" href="#overview" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">▦</span>
+            Resumen
+          </a>
+          <a class="nav-link" href="#pending">
+            <span class="nav-icon" aria-hidden="true">◷</span>
+            Mis actividades
+          </a>
+          <a class="nav-link" href="#completed">
+            <span class="nav-icon" aria-hidden="true">✓</span>
+            Completadas
+          </a>
+          <a class="nav-link" href="#notification-settings">
+            <span class="nav-icon" aria-hidden="true">♧</span>
+            Notificaciones
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="offline-card">
+            <span class="storage-indicator" aria-hidden="true">✓</span>
+            <div>
+              <strong>Almacenamiento local</strong>
+              <p>Tus actividades se guardan en este dispositivo.</p>
+            </div>
+          </div>
+          <p class="sidebar-footnote">Un paso a la vez. Vas muy bien.</p>
+        </div>
+      </aside>
+
+      <main class="main-content" id="overview">
+        <header class="topbar">
+          <div class="mobile-brand" aria-label="TaskFlow">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 32 32" focusable="false">
+                <path d="M8 16.5 13.2 22 24 10" />
+              </svg>
+            </span>
+            <span>Task<span class="brand-accent">Flow</span></span>
+          </div>
+          <div class="topbar-date" id="today-label">TU ESPACIO, A TU MANERA</div>
+          <div class="connection-status" id="connection-status" role="status" aria-live="polite">
+            <span class="connection-dot" aria-hidden="true"></span>
+            <span id="connection-label">En línea</span>
+          </div>
+          <button class="avatar" type="button" aria-label="Perfil de usuario">TF</button>
+        </header>
+
+        <section class="page-heading" aria-labelledby="welcome-title">
+          <div>
+            <p class="eyebrow">TU RESUMEN</p>
+            <h1 id="welcome-title">Hola, <span class="heading-highlight">¿qué toca hoy?</span></h1>
+            <p class="page-subtitle">Un poco de organización puede cambiar todo tu día.</p>
+          </div>
+          <button class="button button-primary" id="add-activity" type="button">
+            <span aria-hidden="true">＋</span>
+            Nueva actividad
+          </button>
+        </section>
+
+        <section class="stats-grid" aria-label="Resumen de actividades">
+          <article class="stat-card stat-card-primary">
+            <div class="stat-topline">
+              <span class="stat-label">Total de actividades</span>
+              <span class="stat-icon stat-icon-purple" aria-hidden="true">▦</span>
+            </div>
+            <p class="stat-number" id="total-count">0</p>
+            <p class="stat-caption">En tu lista personal</p>
+          </article>
+          <article class="stat-card">
+            <div class="stat-topline">
+              <span class="stat-label">Pendientes</span>
+              <span class="stat-icon stat-icon-blue" aria-hidden="true">◷</span>
+            </div>
+            <p class="stat-number" id="pending-count">0</p>
+            <p class="stat-caption">Listas para avanzar</p>
+          </article>
+          <article class="stat-card">
+            <div class="stat-topline">
+              <span class="stat-label">Completadas</span>
+              <span class="stat-icon stat-icon-green" aria-hidden="true">✓</span>
+            </div>
+            <p class="stat-number" id="completed-count">0</p>
+            <p class="stat-caption">¡Cada paso cuenta!</p>
+          </article>
+        </section>
+
+        <section class="sync-panel" id="sync-panel" aria-label="Estado de sincronización">
+          <div class="sync-summary">
+            <span class="sync-icon" id="sync-state-icon" aria-hidden="true">↻</span>
+            <div class="sync-copy">
+              <strong id="sync-state-label">Preparando sincronización</strong>
+              <p id="sync-state-message" role="status" aria-live="polite">
+                Los cambios se guardan primero en este dispositivo.
+              </p>
+            </div>
+          </div>
+          <div class="sync-actions">
+            <span class="sync-pending-count" id="sync-pending-count" aria-live="polite">
+              0 pendientes
+            </span>
+            <button class="button button-secondary sync-button" id="sync-now" type="button">
+              Sincronizar ahora
+            </button>
+          </div>
+        </section>
+
+        <section class="activities-section" id="pending" aria-labelledby="pending-title">
+          <div class="section-heading">
+            <div>
+              <div class="section-title-row">
+                <h2 id="pending-title">Por hacer</h2>
+                <span class="count-pill" id="pending-section-count">0</span>
+              </div>
+              <p>Lo que tienes en mente, en un solo lugar.</p>
+            </div>
+            <button class="text-button" type="button" data-open-form>Ver todas <span aria-hidden="true">→</span></button>
+          </div>
+
+          <div class="activity-list" id="pending-list" aria-live="polite">
+            <p class="empty-state">Cargando tus actividades...</p>
+          </div>
+        </section>
+
+        <section class="activities-section completed-section" id="completed" aria-labelledby="completed-title">
+          <div class="section-heading">
+            <div>
+              <div class="section-title-row">
+                <h2 id="completed-title">Completadas</h2>
+                <span class="count-pill count-pill-muted" id="completed-section-count">0</span>
+              </div>
+              <p>Pequeños logros que también merecen celebrarse.</p>
+            </div>
+          </div>
+          <div class="completed-list" id="completed-list" aria-live="polite">
+            <p class="empty-state">Cargando tus actividades...</p>
+          </div>
+        </section>
+
+        <section class="activities-section notification-section" id="notification-settings" aria-labelledby="notification-title">
+          <div class="section-heading">
+            <div>
+              <div class="section-title-row">
+                <h2 id="notification-title">Recordatorios</h2>
+              </div>
+              <p>Recibe un aviso cuando llegue la hora de una actividad pendiente.</p>
+            </div>
+          </div>
+          <div class="notification-card">
+            <div class="notification-copy">
+              <span class="notification-icon" aria-hidden="true">♧</span>
+              <div>
+                <strong>Notificaciones de TaskFlow</strong>
+                <p id="notification-permission-status" role="status" aria-live="polite">
+                  Comprobando disponibilidad...
+                </p>
+              </div>
+            </div>
+            <div class="notification-actions">
+              <button class="button button-secondary" id="enable-notifications" type="button">
+                Activar notificaciones
+              </button>
+              <button class="button button-primary" id="test-notification" type="button" disabled>
+                Probar notificación
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <footer class="app-footer">
+          <span>TaskFlow</span>
+          <span>Tu día, un paso a la vez.</span>
+        </footer>
+      </main>
+    </div>
+
+    <dialog class="activity-dialog" id="activity-dialog" aria-labelledby="dialog-title">
+      <form class="activity-form" id="activity-form">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow" id="dialog-eyebrow">NUEVA ACTIVIDAD</p>
+            <h2 id="dialog-title">Haz espacio para lo importante</h2>
+          </div>
+          <button class="dialog-close" type="button" data-close-form aria-label="Cerrar formulario">×</button>
+        </div>
+        <label for="activity-title">Título</label>
+        <input id="activity-title" name="title" type="text" placeholder="¿Qué necesitas hacer?" required maxlength="120">
+        <label for="activity-description">Descripción <span>(opcional)</span></label>
+        <textarea id="activity-description" name="description" rows="3" placeholder="Añade algunos detalles..."></textarea>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="activity-date">Fecha</label>
+            <input id="activity-date" name="date" type="datetime-local">
+          </div>
+          <div class="form-field">
+            <label for="activity-priority">Prioridad</label>
+            <select id="activity-priority" name="priority">
+              <option value="low">Baja</option>
+              <option value="medium" selected>Media</option>
+              <option value="high">Alta</option>
+            </select>
+          </div>
+        </div>
+        <p class="form-note" id="form-note">Tu actividad se guardará en este dispositivo.</p>
+        <div class="dialog-actions">
+          <button class="button button-secondary" type="button" data-close-form>Cancelar</button>
+          <button class="button button-primary" id="save-activity" type="submit">Guardar actividad</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="app-status" role="status" aria-live="polite"></div>
+  </body>
+</html>
