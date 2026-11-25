@@ -24,6 +24,9 @@ pnpm-debug.log*
 *.swo
 *~
 
+# Runtime activity data may contain personal information
+/backend/data/activities.json
+
 # Personal editor and workspace settings
 .vscode/
 .idea/
